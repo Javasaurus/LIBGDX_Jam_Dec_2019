@@ -48,7 +48,5 @@ public class PixelBuffer extends FrameBuffer {
         pixelBufferRegion.setRegion(new TextureRegion(getColorBufferTexture()), 0, 0, getWidth(), getHeight());
     }
 
-    public void ResetBuffer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }

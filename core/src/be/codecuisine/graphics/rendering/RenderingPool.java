@@ -19,6 +19,7 @@ import static be.codecuisine.Constants.HEIGHT;
 import static be.codecuisine.Constants.WIDTH;
 import be.codecuisine.graphics.planet.PixelBuffer;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -113,10 +114,19 @@ public class RenderingPool implements Disposable {
     }
 
     public void ResetBuffer() {
+
         if (pixelBuffer != null) {
             pixelBuffer.dispose();
         }
         pixelBuffer = new PixelBuffer(WIDTH, HEIGHT);
+
+        // THESE ARE NEW
+        pixelBuffer.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        pixelBuffer.end();
+        // END NEW
+
     }
 
     public void clear() {
