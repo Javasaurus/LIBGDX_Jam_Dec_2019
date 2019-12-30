@@ -15,6 +15,7 @@
  */
 package be.codecuisine;
 
+import be.codecuisine.graphics.planet.PlanetVisuals;
 import be.codecuisine.graphics.rendering.RenderingPool;
 import be.codecuisine.screens.MainMenuScreen;
 import com.badlogic.gdx.Game;
@@ -28,6 +29,7 @@ public class GluttoGame extends Game {
     public void create() {
         Gdx.input.setCursorCatched(false);
         this.setScreen(new MainMenuScreen(this));
+        PlanetVisuals.generatePlanetPixmap(500);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Shaders {
     private boolean isCompiled(ShaderProgram shader) {
         if (!shader.isCompiled()) {
             Gdx.app.error("Planet Shader Error", "\n" + shader.getLog());
-            return false;
+           throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         }
         return true;
     }

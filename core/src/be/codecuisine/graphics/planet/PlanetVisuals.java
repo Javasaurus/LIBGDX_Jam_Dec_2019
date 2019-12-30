@@ -38,6 +38,7 @@ public class PlanetVisuals extends Renderable implements Disposable {
 
     public static final Texture pixelTexture = new Texture(Gdx.files.internal("pixel.png"));
     public static final PlanetVisuals INSTANCE = new PlanetVisuals();
+    public static Pixmap pixmap;
 
     private ObjectGenerator objectGenerator;
     private Array<SpaceObject> spaceObjects;
@@ -71,7 +72,6 @@ public class PlanetVisuals extends Renderable implements Disposable {
         return createBody(MathUtils.randomSign(), MathUtils.random(500, 800), CollisionLayer.PLANET, new CollisionLayer[]{CollisionLayer.PLAYER, CollisionLayer.OTHER});
     }
 
-
     public void update(float delta) {
         updateObjects(delta);
     }
@@ -96,7 +96,7 @@ public class PlanetVisuals extends Renderable implements Disposable {
         Sprite planet = new Sprite(new Texture(pixmap));
         planet.setSize(size, size);
         Vector2 position = new Vector2(CENTER_X - size / 2, (CENTER_Y + size / 2));
-        position.y= Gdx.graphics.getHeight()+150;
+        position.y = Gdx.graphics.getHeight() + 150;
         planet.setPosition(position.x, position.y);
         SpaceBody body = new SpaceBody(planet, velDir);
         body.setPosition(new Vector2(position));
@@ -110,24 +110,25 @@ public class PlanetVisuals extends Renderable implements Disposable {
         return body;
     }
 
-    private Pixmap generatePlanetPixmap(int size) {
-        float[][] generated = NoiseGenerator.GenerateWhiteNoise(size, size);
-        generated = NoiseGenerator.GeneratePerlinNoise(generated, 8);
+    public static Pixmap generatePlanetPixmap(int size) {
+        if (pixmap == null) {
+            float[][] generated = NoiseGenerator.GenerateWhiteNoise(size, size);
+            generated = NoiseGenerator.GeneratePerlinNoise(generated, 8);
+            pixmap = new Pixmap(generated.length, generated.length, Pixmap.Format.RGBA8888);
+            for (int x = 0; x < generated.length; x++) {
+                for (int y = 0; y < generated.length; y++) {
+                    double value = generated[x][y];
 
-        Pixmap pixmap = new Pixmap(generated.length, generated.length, Pixmap.Format.RGBA8888);
-        for (int x = 0; x < generated.length; x++) {
-            for (int y = 0; y < generated.length; y++) {
-                double value = generated[x][y];
-
-                if (value < 0.40f) {
-                    // Deep ocean
-                    pixmap.drawPixel(x, y, Color.rgba8888(47f / 255f, 86f / 255f, 118f / 255f, 1f));
-                } else if (value < 0.55f) {
-                    // Ocean
-                    pixmap.drawPixel(x, y, Color.rgba8888(62f / 255f, 120f / 255f, 160f / 255f, 1f));
-                } else {
-                    // Land
-                    pixmap.drawPixel(x, y, Color.rgba8888(146f / 255f, 209f / 255f, 135f / 255f, 1f));
+                    if (value < 0.40f) {
+                        // Deep ocean
+                        pixmap.drawPixel(x, y, Color.rgba8888(47f / 255f, 86f / 255f, 118f / 255f, 1f));
+                    } else if (value < 0.55f) {
+                        // Ocean
+                        pixmap.drawPixel(x, y, Color.rgba8888(62f / 255f, 120f / 255f, 160f / 255f, 1f));
+                    } else {
+                        // Land
+                        pixmap.drawPixel(x, y, Color.rgba8888(146f / 255f, 209f / 255f, 135f / 255f, 1f));
+                    }
                 }
             }
         }

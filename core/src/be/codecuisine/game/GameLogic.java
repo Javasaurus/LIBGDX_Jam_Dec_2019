@@ -161,6 +161,7 @@ public class GameLogic implements Disposable {
 
     private BaseEnemyWave GetNextWave(int currentWaveNr) {
         waveText = "";
+
         //every 5 stages we allow the player to rest up
         if (currentWaveNr % 5 == 0) {
             waveText = "Devour the planet to regain health !";
